@@ -29,6 +29,18 @@ class MainActivity : AppCompatActivity() {
             brushDialog.dismiss()
         }
 
+        val mediumBtn = brushDialog.ib_medium_brush
+        smallBtn.setOnClickListener {
+            drawing_view.setSizeForBrush(20.toFloat())
+            brushDialog.dismiss()
+        }
+
+        val largeBtn = brushDialog.ib_large_brush
+        smallBtn.setOnClickListener {
+            drawing_view.setSizeForBrush(30.toFloat())
+            brushDialog.dismiss()
+        }
+
         brushDialog.show()
     }
 
