@@ -3,6 +3,7 @@ package com.example.drawingforkids
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
@@ -54,6 +55,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         brushDialog.show()
+    }
+
+    fun paintClicked(view : View) { //onClick for the image buttons -> set in the xml
+        if (view != mImageButtonCurrentPaint){
+            val imageButton = view as ImageButton
+            val colorTag = imageButton.tag.toString()
+
+            drawing_view.setColor(colorTag) //using setcolor function I made in the drawing view class
+            imageButton!!.setImageDrawable( //set the image button view that was just pressed to pallet_pressed
+                ContextCompat.getDrawable(this, R.drawable.pallet_pressed)
+            )
+            mImageButtonCurrentPaint!!.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pallet_normal)) //set other one to normal
+            mImageButtonCurrentPaint = view
+        }
+
     }
 
 }

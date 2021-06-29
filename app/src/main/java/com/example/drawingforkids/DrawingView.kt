@@ -84,6 +84,11 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         mBrushSize = 20.toFloat()
     }
 
+    fun setColor(newColor: String) {
+        color = Color.parseColor(newColor)
+        mDrawPaint!!.color = color
+    }
+
     fun setSizeForBrush(newSize: Float) {
         mBrushSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, newSize, resources.displayMetrics)
         mDrawPaint!!.strokeWidth = mBrushSize
