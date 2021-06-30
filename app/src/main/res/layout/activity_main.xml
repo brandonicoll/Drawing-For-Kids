@@ -24,7 +24,7 @@
             android:contentDescription="background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/image"/>
+            />
 
         <com.example.drawingforkids.DrawingView
             android:id="@+id/drawing_view"

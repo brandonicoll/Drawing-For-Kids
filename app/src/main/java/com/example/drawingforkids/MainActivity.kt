@@ -2,9 +2,11 @@ package com.example.drawingforkids
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -37,12 +39,34 @@ class MainActivity : AppCompatActivity() {
         ib_gallery.setOnClickListener {
             if (isReadStorageAllowed()) {
                 //run code
+                val pickPhotoIntent = Intent( Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(pickPhotoIntent, GALLERY)
             }
             else {
                 requestStoragePermission()
             }
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GALLERY) {
+                try { //file type might not fit
+                    if (data!!.data != null) { //meaning the user has selected a image and it works
+                        iv_background.visibility = View.VISIBLE
+                        iv_background.setImageURI(data.data)
+                    }
+                    else {
+                        Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     private fun showBrushSizeChooserDialog() {
@@ -120,6 +144,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val STORAGE_PERMISSION = 1
+        private const val GALLERY = 2
     }
 
 }
