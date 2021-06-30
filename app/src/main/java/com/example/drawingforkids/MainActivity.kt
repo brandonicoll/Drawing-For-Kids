@@ -1,14 +1,19 @@
 package com.example.drawingforkids
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_brush_size.*
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +32,15 @@ class MainActivity : AppCompatActivity() {
 
         ib_brush.setOnClickListener {
             showBrushSizeChooserDialog()
+        }
+
+        ib_gallery.setOnClickListener {
+            if (isReadStorageAllowed()) {
+                //run code
+            }
+            else {
+                requestStoragePermission()
+            }
         }
 
     }
@@ -70,6 +84,42 @@ class MainActivity : AppCompatActivity() {
             mImageButtonCurrentPaint = view
         }
 
+    }
+
+    private fun requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE).toString())) {
+            Toast.makeText(this, "Need permission to add a background", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, //requests the permission
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE), STORAGE_PERMISSION)
+        }
+    }
+
+    override fun onRequestPermissionsResult( //overwriting the request result function
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun isReadStorageAllowed() : Boolean {
+        val result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    companion object {
+        private const val STORAGE_PERMISSION = 1
     }
 
 }
