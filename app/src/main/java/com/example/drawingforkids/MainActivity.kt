@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.media.MediaScannerConnection
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -235,10 +236,21 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
+            MediaScannerConnection.scanFile(this@MainActivity, arrayOf(result), null) { //share on post execute
+                path, uri -> val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+                shareIntent.type = "image/png" //mimetype
+
+                startActivity(
+                    Intent.createChooser(shareIntent, "Share")
+                )
+            }
+
         }
 
         private fun showProgressDialog() {
-            mProgressDialog = Dialog(this@MainActivity)
+            mProgressDialog = Dialog(this@MainActivity) //make sure the xml is in a dialog otherwise it'll take up the whole view
             mProgressDialog.setContentView(R.layout.dialog_custom_progress)
             mProgressDialog.show()
         }
