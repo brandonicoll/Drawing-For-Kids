@@ -17,7 +17,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private var color = Color.BLACK
     private var canvas: Canvas? = null
     private val mPaths = ArrayList<CustomPath>()
-    private val mUndoPaths = ArrayList<CustomPath>()
+    private val mUndoPaths = ArrayList<CustomPath>() //array of all the undos
 
     init{
         setUpDrawing()
@@ -26,6 +26,13 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     fun onClickUndo() {
         if (mPaths.size > 0) {
             mUndoPaths.add(mPaths.removeAt(mPaths.size - 1))
+            invalidate()
+        }
+    }
+
+    fun onClickRedo() {
+        if(mUndoPaths.size > 0) {
+            mPaths.add(mUndoPaths.removeAt(mUndoPaths.size - 1))
             invalidate()
         }
     }

@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
             drawing_view.onClickUndo()
         }
 
+        ib_redo.setOnClickListener {
+            drawing_view.onClickRedo()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
