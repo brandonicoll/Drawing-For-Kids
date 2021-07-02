@@ -150,6 +150,16 @@
         >
 
         <ImageButton
+            android:id="@+id/ib_clear"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_clr"
+            android:contentDescription="clr_image"
+            android:scaleType="fitXY"
+            android:layout_margin="5dp"
+            />
+
+        <ImageButton
             android:id="@+id/ib_gallery"
             android:layout_width="50dp"
             android:layout_height="50dp"

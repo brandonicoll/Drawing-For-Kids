@@ -72,6 +72,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        ib_clear.setOnClickListener {
+            iv_background.setImageResource(R.drawable.background_drawing_view_layout)
+            drawing_view.onClickClear()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
